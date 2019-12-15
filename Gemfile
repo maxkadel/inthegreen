@@ -40,6 +40,8 @@ group :development, :test do
   gem 'capybara', '~> 3.29'
   # webdriver for capybara
   gem 'selenium-webdriver'
+  gem 'webdrivers', '~> 3.0'
+  gem 'rails-controller-testing'
   gem 'rspec-rails', '~> 3.9'
   gem 'rubocop', '~> 0.77.0'
 end
@@ -51,6 +53,11 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :test do
+  # Reports for CI
+  gem 'rspec_junit_formatter'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

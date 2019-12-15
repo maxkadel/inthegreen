@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="rspec" tests="3" skipped="2" failures="0" errors="0" time="0.932043" timestamp="2019-12-15T13:05:02-05:00" hostname="Maxs-MacBook-Pro.local">
+<properties>
+<property name="seed" value="40032"/>
+</properties>
+<testcase classname="spec.helpers.welcome_helper_spec" name="WelcomeHelper add some examples to (or delete) /Users/max/projects/inthegreen/spec/helpers/welcome_helper_spec.rb" file="./spec/helpers/welcome_helper_spec.rb" time="0.000010"><skipped/></testcase>
+<testcase classname="spec.system.front_page_spec" name="front page has expected text" file="./spec/system/front_page_spec.rb" time="0.929243"></testcase>
+<testcase classname="spec.views.welcome.index" name="welcome/index.html.erb add some examples to (or delete) /Users/max/projects/inthegreen/spec/views/welcome/index.html.erb_spec.rb" file="./spec/views/welcome/index.html.erb_spec.rb" time="0.000007"><skipped/></testcase>
+</testsuite>
