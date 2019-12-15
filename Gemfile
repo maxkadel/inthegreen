@@ -54,6 +54,7 @@ group :development do
 end
 
 group :test do
+  # Reports for CI
   gem 'rspec_junit_formatter'
 end
 
