@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <strong>Expense:</strong>
+      <%= @expense.expense_name %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+    <strong>Amount due:</strong>
+      <dl class="row">
+        <dt class="col-sm-3">Amount due, fixed:</dt>
+        <dd class="col-sm-9"><%= @expense.amount_due_fixed %></dd>
+        <dt class="col-sm-3">Amount due, range, low:</dt>
+        <dd class="col-sm-9"><%= @expense.amount_due_range_low %></dd>
+        <dt class="col-sm-3">Amount due, range, high:</dt>
+        <dd class="col-sm-9"><%= @expense.amount_due_range_high %></dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <strong>Next due date:</strong>
+      <%= @expense.next_due_date %>
+    </div>
+  </div>
+</div>
