@@ -33,7 +33,6 @@ jobs:
           keys:
             - rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
             - rails-demo-bundle-v2-
-      - browser-tools/install-browser-tools
       - run:
           name: Bundle Install
           command: bundle check || bundle install

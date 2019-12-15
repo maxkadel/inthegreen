@@ -40,6 +40,8 @@ group :development, :test do
   gem 'capybara', '~> 3.29'
   # webdriver for capybara
   gem 'selenium-webdriver'
+  gem 'webdrivers', '~> 3.0'
+  gem 'rails-controller-testing'
   gem 'rspec-rails', '~> 3.9'
   gem 'rubocop', '~> 0.77.0'
 end
