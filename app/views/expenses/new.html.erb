@@ -38,9 +38,7 @@
 
     <div class="form-group">
       <%= form.label :recurrence %><br>
-      <select class="selectpicker">
-        <%= options_for_select([['Does not repeat', 1], ['Daily', 2], ['Weekly', 3], ['Monthly', 4], ['Annually', 5]]) %>
-      </select>
+      <%= form.text_field :recurrence, class:"form-control" %>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
