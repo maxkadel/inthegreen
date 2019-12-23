@@ -1,14 +1,13 @@
+# frozen_string_literal: true
+
 class ExpensesController < ApplicationController
-  def index
-    
-  end
+  def index; end
 
   def show
     @expense = Expense.find(params[:id])
   end
 
-  def new
-  end
+  def new; end
 
   def create
     @expense = Expense.new(expense_params)
@@ -18,6 +17,7 @@ class ExpensesController < ApplicationController
   end
 
   private
+
   def expense_params
     params.require(:expense).permit(:expense_name, :amount_due_fixed, :amount_due_range_low, :amount_due_range_high, :next_due_date, :recurrence)
   end
