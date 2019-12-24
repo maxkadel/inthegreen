@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Expense, type: :model do
   let(:an_expense) do
     described_class.new(
-      id: 'user123',
+      id: '123',
       expense_name: 'Water bill',
       amount_due_fixed: 22,
       amount_due_range_low: 12,

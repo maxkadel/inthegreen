@@ -42,7 +42,8 @@ group :development, :test do
   gem 'capybara', '~> 3.29'
   # webdriver for capybara
   gem 'rails-controller-testing'
-  gem 'rspec-rails', '~> 3.9'
+  # Use beta of rspec-rails to fix bug in controller specs
+  gem 'rspec-rails', '~> 4.0.0.beta2'
   gem 'rubocop', '~> 0.77.0'
   gem 'selenium-webdriver'
   gem 'webdrivers', '~> 3.0'
