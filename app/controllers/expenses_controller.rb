@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class ExpensesController < ApplicationController
-  def index; end
+  def index
+    @expenses = Expense.all
+  end
 
   def show
     @expense = Expense.find(params[:id])
