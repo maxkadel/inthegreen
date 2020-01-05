@@ -4,9 +4,9 @@
   <table class="table">
     <thead>
       <th scope="col">Expense name</th>
-      <th scope="col">Amount due (fixed)</th>
-      <th scope="col">Amount due (range - low)</th>
-      <th scope="col">Amount due (range - high)</th>
+      <th scope="col">Amount due</br>(fixed)</th>
+      <th scope="col">Amount due</br>(range - low)</th>
+      <th scope="col">Amount due</br>(range - high)</th>
       <th scope="col">Next due date</th>
       <th scope="col">Recurrence</th>
     </thead>
@@ -17,16 +17,16 @@
           <%= link_to expense.expense_name, expense_path(expense) %>
         </td>
         <td>
-          <%= expense.amount_due_fixed %>
+          <%= number_to_currency(expense.amount_due_fixed) %>
         </td>
         <td>
-          <%= expense.amount_due_range_low %>
+          <%= number_to_currency(expense.amount_due_range_low) %>
         </td>
         <td>
-          <%= expense.amount_due_range_high %>
+          <%= number_to_currency(expense.amount_due_range_high) %>
         </td>
         <td>
-          <%= expense.next_due_date %>
+          <%= t(format_time(expense.next_due_date, :long, "N/A")) %>
         </td>
         <td>
           <%= expense.recurrence %>

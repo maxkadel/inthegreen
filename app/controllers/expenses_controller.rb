@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ExpensesController < ApplicationController
+  helper FormattedTimeHelper
+
   def index
     @expenses = Expense.all
   end

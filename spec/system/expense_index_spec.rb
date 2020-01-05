@@ -1,4 +1,9 @@
-RSpec.describe 'Expense index page', type: :system do
+# frozen_string_literal: true
+
+require 'rails_helper'
+require 'spec_helper'
+
+RSpec.describe 'Expense index page', type: :system, js:true do
   let(:an_expense) do
     described_class.new(
       id: '123',
@@ -11,13 +16,24 @@ RSpec.describe 'Expense index page', type: :system do
     )
   end
 
-  it 'has expected text' do
+  before do
     visit '/expenses'
+  end
+
+  it 'has expected text' do
     expect(page).to have_content 'Expenses'
   end
 
+  # it 'shows expected values' do
+  #   expect(page).to have_content 'Water bill'
+  #   expect(page).to have_content '$22.00'
+  #   expect(page).to have_content '$15.00'
+  #   expect(page).to have_content '$25.00'
+  #   expect(page).to have_content 'December 15, 2019'
+  #   expect(page).to have_content 'Weekly'
+  # end
+
   it 'has a new expense button' do
-    visit '/expenses'
     expect(page).to have_content 'New expense'
   end
 
