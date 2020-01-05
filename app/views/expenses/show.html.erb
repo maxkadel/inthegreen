@@ -10,11 +10,11 @@
     <strong>Amount due:</strong>
       <dl class="row">
         <dt class="col-sm-3">Amount due, fixed:</dt>
-        <dd class="col-sm-9"><%= @expense.amount_due_fixed %></dd>
+        <dd class="col-sm-9"><%= number_to_currency(@expense.amount_due_fixed) %></dd>
         <dt class="col-sm-3">Amount due, range, low:</dt>
-        <dd class="col-sm-9"><%= @expense.amount_due_range_low %></dd>
+        <dd class="col-sm-9"><%= number_to_currency(@expense.amount_due_range_low) %></dd>
         <dt class="col-sm-3">Amount due, range, high:</dt>
-        <dd class="col-sm-9"><%= @expense.amount_due_range_high %></dd>
+        <dd class="col-sm-9"><%= number_to_currency(@expense.amount_due_range_high) %></dd>
       </dl>
     </div>
   </div>
@@ -22,7 +22,7 @@
   <div class="row">
     <div class="col">
       <strong>Next due date:</strong>
-      <%= @expense.next_due_date %>
+      <%= format_time(@expense.next_due_date, :long, "N/A") %>
     </div>
   </div>
 
