@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'spec_helper'
 
-RSpec.describe 'Expense index page', type: :system, js:true do
+RSpec.describe 'Expense index page', type: :system, js: true do
   let(:an_expense) do
     described_class.new(
       id: '123',
@@ -15,8 +15,10 @@ RSpec.describe 'Expense index page', type: :system, js:true do
       recurrence: 'Every week'
     )
   end
+  let(:user) { FactoryBot.create(:user) }
 
   before do
+    login_as(user)
     visit '/expenses'
   end
 
@@ -36,5 +38,4 @@ RSpec.describe 'Expense index page', type: :system, js:true do
   it 'has a new expense button' do
     expect(page).to have_content 'New expense'
   end
-
 end
