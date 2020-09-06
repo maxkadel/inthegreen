@@ -3,7 +3,12 @@
 require 'rails_helper'
 require 'spec_helper'
 
-RSpec.describe 'new expense entry', type: :system, js:true do
+RSpec.describe 'new expense entry', type: :system, js: true do
+  let(:user) { FactoryBot.create(:user) }
+
+  before do
+    login_as(user)
+  end
 
   it 'has expected text' do
     visit '/expenses/new'
