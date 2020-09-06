@@ -25,7 +25,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 4.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.2'
+gem 'rails', '~> 6.0.3'
 # Use I18n for internationalization
 gem 'rails-i18n', '~> 6.0'
 # Use Redis adapter to run Action Cable in production
