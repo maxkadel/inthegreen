@@ -6,7 +6,7 @@ class CreateExpenses < ActiveRecord::Migration[6.0]
       t.money :amount_due_range_low
       t.money :amount_due_range_high
       t.date :next_due_date
-      t.string :recurrence, limit 45
+      t.string :recurrence, :limit => 45
 
       t.timestamps
     end

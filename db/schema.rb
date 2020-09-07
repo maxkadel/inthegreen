@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(version: 2020_09_06_125540) do
     t.money "amount_due_range_low", scale: 2
     t.money "amount_due_range_high", scale: 2
     t.date "next_due_date"
+    t.string "recurrence", limit: 45
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "recurrence", limit: 45
     t.bigint "user_id"
     t.index ["user_id"], name: "index_expenses_on_user_id"
   end
