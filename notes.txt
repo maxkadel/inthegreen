@@ -1,0 +1,158 @@
+Building the AWS box
+
+# Become root user
+sudo -i
+
+# Debian magic from Docker script
+curl -sL https://deb.nodesource.com/setup_12.x | bash -
+
+# Following subsequent instructions
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt-get update && sudo apt-get install yarn
+[YES]
+
+# Back on Docker script, all at once
+apt-get update -qq && \
+apt-get install -y --no-install-recommends \
+  postgresql-client \
+  nodejs \
+  yarn \
+&& \
+apt-get clean && \
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+echo 'Packages Downloaded'
+
+# Appeared to be successful
+
+# Install Chrome so we can run system specs - Docker again
+apt-get update && apt-get install -y wget && \
+  wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+  sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' && \
+  apt-get update && \
+  apt-get install -y google-chrome-stable && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+  echo 'Chrome installed'
+
+# Git clone using https to get code in there...
+git clone https://github.com/maxkadel/inthegreen.git
+
+# Go into code directory
+cd ./inthegreen/
+
+# Oops, there's not ruby installed
+cd ../
+sudo apt update
+ruby --version
+> ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux-gnu]
+
+# Go back to app directory
+cd ./inthegreen
+
+# Install bundler v2.1.4
+gem install bundler && bundle install
+
+# Curses! Nokogiri!
+# An error occurred while installing nokogiri (1.10.10), and Bundler cannot continue.
+# Make sure that `gem install nokogiri -v '1.10.10' --source 'https://rubygems.org/'` succeeds before bundling.
+# Tried the above command a few times before going to internet for answers
+# From the internet - https://nokogiri.org/tutorials/installing_nokogiri.html
+sudo apt-get install build-essential patch ruby-dev zlib1g-dev liblzma-dev
+gem install nokogiri
+# That was successful
+
+# Bundle install again
+bundle install
+
+# Failed on pg, same suggested installation, same failures, trying internet
+# https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04
+sudo apt install postgresql postgresql-contrib
+
+Success. You can now start the database server using:
+
+    /usr/lib/postgresql/10/bin/pg_ctl -D /var/lib/postgresql/10/main -l logfile start
+
+Ver Cluster Port Status Owner    Data directory              Log file
+10  main    5432 down   postgres /var/lib/postgresql/10/main /var/log/postgresql/postgresql-10-main.log
+
+# Continue to bundle install!
+bundle install
+
+# Still can't install postgres, try more internet magic
+sudo apt-get install libpq-dev
+gem install pg -v '1.2.3' --source 'https://rubygems.org/'
+
+# Success! Bundle install again
+bundle install
+
+# I guess I should start postgres?
+root@ip-172-31-63-148:~/inthegreen# /usr/lib/postgresql/10/bin/pg_ctl -D /var/lib/postgresql/10/main -l logfile start
+pg_ctl: cannot be run as root
+Please log in (using, e.g., "su") as the (unprivileged) user that will own the server process.
+
+# Oops, I guess I don't have a plan for who the application user is and their username and password
+#
+adduser inthegreen
+cd ../
+mv inthegreen/ /home/inthegreen/app
+cd /home/inthegreen/app
+chown -fR inthegreen:inthegreen /home/inthegreen/
+chown -fR inthegreen:inthegreen /home/inthegreen/app/public
+
+
+# Set up postgres user?
+sudo -i -u postgres
+createuser --interactive
+Enter name of role to add: inthegreen
+Shall the new role be a superuser? (y/n) y # No clue if this is right, probably not...
+createdb inthegreen
+createdb inthegreen_production
+su - inthegreen
+/usr/lib/postgresql/10/bin/pg_ctl -D /var/lib/postgresql/10/main -l logfile start
+> pg_ctl: could not open PID file "/var/lib/postgresql/10/main/postmaster.pid": Permission denied
+sudo -i -u postgres
+pg_ctl: another server might be running; trying to start server anyway
+
+rails server -b 0.0.0.0
+
+=> Booting Puma
+=> Rails 6.0.3.2 application starting in development
+=> Run `rails server --help` for more startup options
+Puma starting in single mode...
+* Version 4.3.6 (ruby 2.5.1-p57), codename: Mysterious Traveller
+* Min threads: 5, max threads: 5
+* Environment: development
+* Listening on tcp://0.0.0.0:3000
+Use Ctrl-C to stop
+ctrl-C....
+RAILS_ENV=production rails s
+
+# error - no logfile. Become inthegreen user again and...
+touch /home/inthegreen/app/log/production.log
+cd /home/inthegreen/app
+RAILS_ENV=production rails s
+> Missing `secret_key_base` for 'production' environment, set this string with `rails credentials:edit`
+vi rails credentials:edit
+
+# Saved Rails master key in AWS parameter store
+RAILS_ENV=production rails s
+RAILS_ENV=production bundle exec rails s
+<NameError: uninitialized constant Bootsnap::CompileCache::ISeq
+# https://stackoverflow.com/questions/61252207/rails-nameerror-uninitialized-constant-bootsnapcompilecacheiseq
+# become root again so you can delete root owned files
+sudo rm -rf tmp/cache/bootsnap-load-path-cache
+sudo rm -rf tmp/cache/bootsnap-compile-cache
+# become app user again
+su inthegreen
+cd /home/inthegreen/app
+
+#root again
+chown -fR inthegreen:inthegreen /home/inthegreen/app/tmp
+
+# app user again
+RAILS_ENV=production bundle exec rails s
+
+Came up successfully!
+
+Now we'll see if anyone else can see it
+The answer is "no"
