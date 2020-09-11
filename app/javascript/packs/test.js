@@ -1,0 +1,1 @@
+console.log("rails is different than not rails")
