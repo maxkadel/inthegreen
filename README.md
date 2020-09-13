@@ -2,7 +2,7 @@
 
 # README
 
-* Ruby 2.6.5
+* Ruby 2.6.6
 
 * Rails 6.0.2
 
