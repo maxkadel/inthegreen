@@ -1,0 +1,54 @@
+<%= form_with(model: expense, local: true) do |form| %>
+  <% if expense.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(expense.errors.count, "error") %> prohibited this expense from being saved:</h2>
+
+      <ul>
+        <% expense.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :expense_name %><br>
+    <%= form.text_field :expense_name, class:"form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :amount_due_fixed %><br>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">$</span>
+      </div>
+      <%= form.number_field :amount_due_fixed, step: :any, class:"form-control" %>
+    </div>
+    <%= form.label :amount_due_range_low %><br>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">$</span>
+      </div>
+      <%= form.number_field :amount_due_range_low, step: :any, class:"form-control" %>
+    </div>
+    <%= form.label :amount_due_range_high %><br>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">$</span>
+      </div>
+      <%= form.number_field :amount_due_range_high, step: :any, class:"form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :next_due_date %><br>
+    <%= form.date_field :next_due_date, class:"form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :recurrence %><br>
+    <%= form.text_field :recurrence, class:"form-control" %>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+<% end %>

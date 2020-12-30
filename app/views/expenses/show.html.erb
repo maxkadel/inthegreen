@@ -32,4 +32,7 @@
       <%= @expense.recurrence %>
     </div>
   </div>
+
+  <%= link_to 'Edit', edit_expense_path(@expense), class:"btn btn-primary" %> |
+  <%= link_to 'Back', expenses_path, class:"btn btn-primary" %>
 </div>
