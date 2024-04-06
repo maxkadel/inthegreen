@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: postgres:16.2-alpine
+    container_name: inthegreen-db
+    restart: always
+    environment:
+        POSTGRES_HOST: db
+        POSTGRES_PASSWORD: example
+        POSTGRES_USER: inthegreen_db_user
+        POSTGRES_DB: inthegreen_development
+    ports:
+      - "5432:5432"
+    volumes:
+      - "db:/var/lib/postgresql/data"
+  web:
+    build: .
+    command: "bundle exec rails s -p 3000 -b '0.0.0.0'"
+    environment:
+        DB_HOST: db
+    volumes:
+      - .:/app:cached
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+volumes:
+  db:
