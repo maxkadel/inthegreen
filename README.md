@@ -15,5 +15,15 @@ Living in poverty is hard and stressful, and you can't actually budget your way 
 docker compose up
 ```
 
+### Running commands in containers
+To open a bash shell on the container:
+```bash
+docker compose run [service_name] bash
+```
+e.g., to run rubocop and rspec in the containers:
+```bash
+docker compose run app bash
+```
+
 ### Linter
 - We use rubocop - call `rubocop` to see style problems, `rubocop -a` to correct safe problems, `rubocop -A` to fix problems that could potentially cause an error
