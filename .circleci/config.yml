@@ -1,0 +1,59 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@2.1.1
+jobs:
+  build:
+    docker:
+      - image: cimg/ruby:3.3
+    steps:
+      - checkout
+      - run:
+          name: Which bundler?
+          command: bundle -v
+      - ruby/install-deps
+  lint:
+    docker:
+      - image: cimg/ruby:3.3
+    steps:
+      - checkout
+      - ruby/install-deps
+      - ruby/rubocop-check:
+          format: progress
+          label: Inspecting with Rubocop
+  test:
+    docker:
+      - image: cimg/ruby:3.3
+      - environment:
+          POSTGRES_DB: inthegreen_test
+          POSTGRES_PASSWORD: example
+          POSTGRES_USER: inthegreen_db_user
+        image: cimg/postgres:16.2
+    environment:
+      BUNDLE_JOBS: '3'
+      BUNDLE_RETRY: '3'
+      # PGHOST: 127.0.0.1
+      # PGPASSWORD: example
+      # PGUSER: inthegreen_db_user
+      RAILS_ENV: test
+    parallelism: 3
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run:
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+          name: Wait for DB
+      - run:
+          command: bundle exec rails db:schema:load --trace
+          name: Database setup
+      - ruby/rspec-test:
+          include: spec/**/*_spec.rb
+workflows:
+  build_and_test:
+    jobs:
+      - build
+      - lint:
+          requires:
+          - build
+      - test:
+          requires:
+          - build
