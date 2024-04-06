@@ -34,7 +34,7 @@ jobs:
           POSTGRES_DB: inthegreen_test
           POSTGRES_PASSWORD: example
           POSTGRES_USER: inthegreen_db_user
-        image: circleci/postgres:16.5-alpine
+        image: cimg/postgres:16.2
     environment:
       BUNDLE_JOBS: '3'
       BUNDLE_RETRY: '3'
@@ -58,8 +58,7 @@ jobs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  build_and_test: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  build_and_test:
     jobs:
       - build
       - lint:
